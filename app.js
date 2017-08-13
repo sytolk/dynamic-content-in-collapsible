@@ -2,45 +2,49 @@ import React from 'react'
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native'
 
 import { connect } from 'react-redux'
-import { renewTimes } from './actions'
+import { renewTimes, handleOneCollapsed, handleTwoCollapsed } from './actions'
 import Collapsible from 'react-native-collapsible'
 
 let styles
 
-const App = (props) => {
-  const {
-    container
-  } = styles
-  const {timeOne, timeTwo} = props
-  return (
-    <View style={container}>
+class App extends React.Component {
 
-      <Text>{timeOne} / {timeTwo}</Text>
+  render () {
 
-      <TouchableOpacity>
-        <View><Text>Press me to open/close collapsible 1</Text></View>
-      </TouchableOpacity>
+    const {container} = styles
+    const {handleOneCollapsed, handleTwoCollapsed, isOneCollapsed, isTwoCollapsed, renewTimes} = this.props
 
-      <Collapsible collapsed={false}>
-        <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
-          <Text>Time 1</Text>
-          <Text>Time 2</Text>
-        </View>
-      </Collapsible>
+    console.log(isOneCollapsed)
 
-      <TouchableOpacity>
-        <View><Text>Press me to open/close collapsible 2</Text></View>
-      </TouchableOpacity>
+    return (
+      <View style={container}>
 
-      <Collapsible collapsed={false}>
-        <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
-          <Text>Time 1</Text>
-          <Text>Time 2</Text>
-        </View>
-      </Collapsible>
+        <TouchableOpacity onPress={handleOneCollapsed}>
+          <View><Text>Press me to open/close collapsible 1</Text></View>
+        </TouchableOpacity>
 
-    </View>
-  )
+        <Collapsible collapsed={isOneCollapsed}>
+          <View>
+            <Text>Time 1</Text>
+            <Text>Time 2</Text>
+          </View>
+        </Collapsible>
+
+        <TouchableOpacity onPress={handleTwoCollapsed}>
+          <View><Text>Press me to open/close collapsible 2</Text></View>
+        </TouchableOpacity>
+
+        <Collapsible collapsed={isTwoCollapsed}>
+          <View>
+            <Text>Time 1</Text>
+            <Text>Time 2</Text>
+          </View>
+        </Collapsible>
+
+      </View>
+    )
+  }
+
 }
 
 styles = StyleSheet.create({
@@ -53,15 +57,20 @@ styles = StyleSheet.create({
 })
 
 function mapStateToProps (state) {
+  console.log(state)
   return {
-    timeOne: state.timeOne,
-    timeTwo: state.timeTwo
+    timeOne: state.times.timeOne,
+    timeTwo: state.times.timeTwo,
+    isOneCollapsed: state.times.isOneCollapsed,
+    isTwoCollapsed: state.times.isTwoCollapsed
   }
 }
 
 function mapDispatchToProps (dispatch) {
   return {
-    renewTimes: () => dispatch(renewTimes())
+    renewTimes: () => dispatch(renewTimes()),
+    handleOneCollapsed: () => dispatch(handleOneCollapsed()),
+    handleTwoCollapsed: () => dispatch(handleTwoCollapsed())
   }
 }
 
