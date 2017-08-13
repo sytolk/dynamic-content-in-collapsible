@@ -1,38 +1,44 @@
 import React from 'react'
-import { TouchableHighlight, View, Text, StyleSheet } from 'react-native'
+import { TouchableOpacity, View, Text, StyleSheet } from 'react-native'
 
 import { connect } from 'react-redux'
-import { fetchPeopleFromAPI } from './actions'
+import { renewTimes } from './actions'
+import Collapsible from 'react-native-collapsible'
 
 let styles
 
 const App = (props) => {
   const {
-    container,
-    text,
-    button,
-    buttonText
+    container
   } = styles
-  const { people, isFetching } = props.people;
+  const {timeOne, timeTwo} = props
   return (
     <View style={container}>
-      <Text style={text}>Redux Example</Text>
-      <TouchableHighlight style={button} onPress={() => props.getPeople()}>
-        <Text style={buttonText}>Load People</Text>
-      </TouchableHighlight>
-      {
-        isFetching && <Text>Loading</Text>
-      }
-      {
-        people.length ? (
-          people.map((person, i) => {
-            return <View key={i} >
-              <Text>Name: {person.name}</Text>
-              <Text>Birth Year: {person.birth_year}</Text>
-            </View>
-          })
-        ) : null
-      }
+
+      <Text>{timeOne} / {timeTwo}</Text>
+
+      <TouchableOpacity>
+        <View><Text>Press me to open/close collapsible 1</Text></View>
+      </TouchableOpacity>
+
+      <Collapsible collapsed={false}>
+        <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
+          <Text>Time 1</Text>
+          <Text>Time 2</Text>
+        </View>
+      </Collapsible>
+
+      <TouchableOpacity>
+        <View><Text>Press me to open/close collapsible 2</Text></View>
+      </TouchableOpacity>
+
+      <Collapsible collapsed={false}>
+        <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
+          <Text>Time 1</Text>
+          <Text>Time 2</Text>
+        </View>
+      </Collapsible>
+
     </View>
   )
 }
@@ -41,31 +47,21 @@ styles = StyleSheet.create({
   container: {
     marginTop: 100,
     paddingLeft: 20,
-    paddingRight: 20
-  },
-  text: {
-    textAlign: 'center'
-  },
-  button: {
-    height: 60,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#0b7eff'
-  },
-  buttonText: {
-    color: 'white'
+    paddingRight: 20,
+    flex: 1
   }
 })
 
 function mapStateToProps (state) {
   return {
-    people: state.people
+    timeOne: state.timeOne,
+    timeTwo: state.timeTwo
   }
 }
 
 function mapDispatchToProps (dispatch) {
   return {
-    getPeople: () => dispatch(fetchPeopleFromAPI())
+    renewTimes: () => dispatch(renewTimes())
   }
 }
 
