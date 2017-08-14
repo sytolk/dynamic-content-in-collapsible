@@ -1,10 +1,10 @@
-import { RENEW_TIMES, HANDLE_ONE_COLLAPSED, HANDLE_TWO_COLLAPSED } from '../constants'
+import { RENEW_TIMES, HANDLE_START_TIMER } from '../constants'
 
 const initialState = {
   timeOne: new Date(),
   timeTwo: new Date(),
-  isOneCollapsed: false,
-  isTwoCollapsed: false
+  timeThree: new Date(),
+  isTimerRunning: false
 }
 
 export default function timeReducer (state = initialState, action) {
@@ -13,21 +13,15 @@ export default function timeReducer (state = initialState, action) {
       return {
         ...state,
         timeOne: new Date(),
-        timeTwo: new Date()
+        timeTwo: new Date(),
+        timeThree: new Date()
       }
 
-    case HANDLE_ONE_COLLAPSED:
-      console.log('timeReducer ' + action.type + ' ' + action.payload + ' ' + state.isOneCollapsed)
+    case HANDLE_START_TIMER:
+      console.log('timeReducer ' + action.type + ' ' + action.payload + ' ' + state.isTimerRunning)
       return {
         ...state,
-        isOneCollapsed: !state.isOneCollapsed
-      }
-
-    case HANDLE_TWO_COLLAPSED:
-      console.log('timeReducer ' + action.type + ' ' + action.payload + ' ' + state.isTwoCollapsed)
-      return {
-        ...state,
-        isTwoCollapsed: !state.isTwoCollapsed
+        isTimerRunning: !state.isTimerRunning
       }
 
     default:
