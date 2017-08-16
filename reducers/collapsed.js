@@ -1,8 +1,8 @@
 import { HANDLE_ONE_COLLAPSED, HANDLE_TWO_COLLAPSED } from '../constants'
 
 const initialState = {
-  isOneCollapsed: false,
-  isTwoCollapsed: false
+  isOneCollapsed: true,
+  isTwoCollapsed: true
 }
 
 export default function collapsedReducer (state = initialState, action) {
